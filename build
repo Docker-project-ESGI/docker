@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source print-head
+
+getopts "i:" opt $@
+if [[ $? -ne 0 ]]; then exit; fi
+
+if [[ $opt != "i" ]]; then PATH_TO_BUILD="."; else PATH_TO_BUILD=$OPTARG; fi
+
+echo $PATH_TO_BUILD
+echo "Construction des images en cours..."

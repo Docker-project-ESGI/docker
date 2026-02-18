@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# A larger color palette for a smoother wave (Red -> Orange -> Yellow -> Green -> Blue -> Purple)
+colors=(196 202 208 214 220 226 190 154 118 82 46 47 48 49 50 51 45 39 33 27 21 57 93 129 165 201)
+color_count=${#colors[@]}
+
+# Your ASCII art
+ascii_art=$(cat <<'EOF'
+    ___           _                               _           _   
+   /   \___   ___| | _____ _ __   _ __  _ __ ___ (_) ___  ___| |_ 
+  / /\ / _ \ / __| |/ / _ \ '__| | '_ \| '__/ _ \| |/ _ \/ __| __|
+ / /_// (_) | (__|   <  __/ |    | |_) | | | (_) | |  __/ (__| |_ 
+/___,' \___/ \___|_|\_\___|_|    | .__/|_|  \___// |\___|\___|\__|
+                                 |_|            |__/               
+EOF
+)
+
+row=0
+# Read line by line
+while IFS= read -r line; do
+    # Loop through each character in the line
+    for (( col=0; col<${#line}; col++ )); do
+        char="${line:col:1}"
+        
+        if [[ "$char" == " " ]]; then
+            printf " "
+        else
+            # The "Wave" Logic: (row + column) creates the diagonal shift
+            # Adding a multiplier to 'row' makes the wave steeper or shallower
+            color_idx=$(( (row * 2 + col) % color_count ))
+            color_code=${colors[$color_idx]}
+            printf "\033[38;5;%dm%s\033[0m" "$color_code" "$char"
+        fi
+    done
+    printf "\n"
+    ((row++))
+done <<< "$ascii_art"
+echo
