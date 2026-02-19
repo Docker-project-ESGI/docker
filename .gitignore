@@ -1,0 +1,46 @@
+# ==========================================
+# Git Ignore - Task Manager
+# ==========================================
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+.vite/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Docker
+.docker/
+
+# Backups
+backups/*.sql
+backups/*.gz
+
+# Test coverage
+coverage/
+
+# OS
+Thumbs.db

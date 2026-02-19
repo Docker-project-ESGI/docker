@@ -1,0 +1,41 @@
+# ==========================================
+# .dockerignore - Backend Node.js
+# ==========================================
+# Objectif : réduire la taille du build, accélérer docker build
+# et éviter d’embarquer des fichiers sensibles ou inutiles
+# dans l’image Docker.
+
+# ------------------------------------------
+# Dépendances et artefacts locaux
+# ------------------------------------------
+node_modules        # Les dépendances seront réinstallées dans l'image via `npm ci`
+.npm                # Cache npm local
+dist                # Dossier de build éventuel (pas nécessaire pour le runtime)
+coverage            # Rapports de couverture de tests
+tests               # Code de tests (pas nécessaire dans l'image de prod)
+
+# ------------------------------------------
+# Git et méta fichiers
+# ------------------------------------------
+.git                # Historique Git inutile dans l'image
+.gitignore          # Fichier de config Git uniquement pour le repo
+README.md           # Documentation pour les devs, pas pour le conteneur
+
+# ------------------------------------------
+# Fichiers d'environnement / secrets
+# ------------------------------------------
+.env                # Ne jamais intégrer les secrets dans l'image
+.env.local          # Variantes locales des envs
+
+# ------------------------------------------
+# Logs et caches divers
+# ------------------------------------------
+npm-debug.log*      # Logs npm inutiles en prod
+yarn-debug.log*     # Logs yarn inutiles en prod
+yarn-error.log*     # Logs d'erreurs yarn
+.eslintcache        # Cache de linter, uniquement utile en dev
+
+# ------------------------------------------
+# Config éditeur / IDE
+# ------------------------------------------
+.vscode             # Config VS Code spécifique à ta machine
