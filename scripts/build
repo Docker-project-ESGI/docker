@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $SCRIPT_DIR/print-head
 
 getopts "i:" opt $@
@@ -9,3 +9,5 @@ if [[ $opt != "i" ]]; then PATH_TO_BUILD="."; else PATH_TO_BUILD=$OPTARG; fi
 
 echo $PATH_TO_BUILD
 echo "Construction des images en cours..."
+
+find $PATH_TO_BUILD -name "Dockerfile-*" -exec docker build -t $(basename {} | cut -d"-" -f2) -f {} \;
