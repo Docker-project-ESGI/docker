@@ -7,7 +7,6 @@ getopts "i:" opt $@
 
 if [[ $opt != "i" ]]; then PATH_TO_BUILD="."; else PATH_TO_BUILD=$OPTARG; fi
 
-echo $PATH_TO_BUILD
 echo "Construction des images en cours..."
 
-find $PATH_TO_BUILD -name "Dockerfile-*" -exec docker build -t $(basename {} | cut -d"-" -f2) -f {} \;
+find $PATH_TO_BUILD -name "Dockerfile-*" -exec bash -c 'docker build -t $(basename "$0" | cut -d"-" -f2) -f "$0" "$1"' {} $PATH_TO_BUILD \;
