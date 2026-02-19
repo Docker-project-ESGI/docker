@@ -3,7 +3,6 @@
 source print-head
 
 getopts "c:" opt $@
-if [[ $? -ne 0 ]]; then exit; fi
 
 if [[ $opt != "c" ]]; then
         echo "Quel container voulez vous éteindre ?"
