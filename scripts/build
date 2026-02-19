@@ -3,10 +3,6 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $SCRIPT_DIR/print-head
 
-getopts "i:" opt $@
-
-if [[ $opt != "i" ]]; then PATH_TO_BUILD="."; else PATH_TO_BUILD=$OPTARG; fi
-
 echo "Construction des images en cours..."
 
-find $PATH_TO_BUILD -name "Dockerfile-*" -exec bash -c 'docker build -t $(basename "$0" | cut -d"-" -f2) -f "$0" "$1"' {} $PATH_TO_BUILD \;
+find . -name "Dockerfile" -exec bash -c 'docker build -t my-$(basename $(dirname "$0")) -f "$0" .' {} \;
