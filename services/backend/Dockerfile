@@ -12,15 +12,18 @@ FROM node:18-alpine AS dependencies
 WORKDIR /app
 
 # On copie uniquement les infos de dépendances
-COPY services/backend/package.json ./package.json
+COPY services/backend/package*.json .
 
 # Installation des dépendances de PRODUCTION uniquement
 # - npm ci : installation propre et déterministe
 # - --only=production : pas de dépendances de dev
 # - --ignore-scripts : plus de sécurité (pas de scripts NPM exécutés)
 # On nettoie ensuite le cache npm pour alléger l'image
-RUN npm ci --only=production --ignore-scripts && \
-    npm cache clean --force
+
+RUN npm i 
+
+#RUN npm ci --only=production --ignore-scripts && \
+#    npm cache clean --force
 
 
 # ------------------------------------------
