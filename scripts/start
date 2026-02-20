@@ -39,13 +39,13 @@ fi
 
 if [[ " t tous p postgres " =~ " $(echo $CONTAINER_TO_START | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        docker run --rm -d --name postgres --network backend-network -p 127.0.0.1:5432:5432 -v postgres-data:/var/lib/postgresql/data -v ./config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro --env-file .env postgres:alpine3.22
+        docker run --rm -d --name postgres --network backend-network -p 127.0.0.1:5432:5432 -v postgres-data:/var/lib/postgresql/18/docker -v ./config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro --env-file .env postgres:alpine3.22
 
 fi
 
 if [[ " t tous r redis " =~ " $(echo $CONTAINER_TO_START | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        docker run --rm -d --name redis --network backend-network -p 127.0.0.1:6379:6379 --env-file .env redis:8.2.4-alpine3.22
+        docker run --rm -d --name redis --network backend-network -p 127.0.0.1:6379:6379 -v redis-data:/data --env-file .env redis:8.2.4-alpine3.22
 
 fi
 

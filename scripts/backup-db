@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source $SCRIPT_DIR/print-head
+
+sudo echo "Backup en cours dans backup.tar.gz..."
+
+sudo tar -czvf backup.tar.gz /var/lib/docker/volumes/postgres-data/_data
