@@ -20,10 +20,8 @@ COPY services/backend/package*.json .
 # - --ignore-scripts : plus de sécurité (pas de scripts NPM exécutés)
 # On nettoie ensuite le cache npm pour alléger l'image
 
-RUN npm i 
-
-#RUN npm ci --only=production --ignore-scripts && \
-#    npm cache clean --force
+RUN npm ci --only=production --ignore-scripts && \
+    npm cache clean --force
 
 
 # ------------------------------------------
@@ -39,7 +37,7 @@ WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
 
 # On copie le code source de l'application backend
-COPY services/backend/package.json ./package.json
+COPY services/backend/package*.json ./package.json
 COPY services/backend/src/ ./src/
 
 
@@ -65,7 +63,7 @@ COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
 
 # On copie le code source depuis le stage "builder"
 # Toujours avec --chown=node:node pour garder des permissions propres
-COPY --from=builder --chown=node:node /app/package.json ./package.json
+COPY --from=builder --chown=node:node /app/package*.json ./package.json
 COPY --from=builder --chown=node:node /app/src/ ./src/
 
 # Définition des variables d'environnement par défaut pour l'API

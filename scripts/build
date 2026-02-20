@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $SCRIPT_DIR/print-head
 
 echo "Construction des images en cours..."
 
-find . -name "Dockerfile" -exec bash -c 'docker build -t my-$(basename $(dirname "$0")) -f "$0" .' {} \;
+find . -name "Dockerfile" -exec bash -c 'docker build -t task-manager:$(basename $(dirname "$0")) -f "$0" .' {} \;

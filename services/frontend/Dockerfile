@@ -17,14 +17,14 @@ LABEL description="Task Manager Frontend - Builder Stage"
 WORKDIR /app
 
 # Copier package.json et package-lock.json
-COPY package*.json ./
+COPY services/frontend/package*.json ./
 
 # Installer les dépendances
 RUN npm ci --prefer-offline && \
     npm cache clean --force
 
 # Copier le code source
-COPY . .
+COPY services/frontend/. .
 
 # Build de l'application pour production
 RUN npm run build
@@ -42,7 +42,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copier la configuration nginx depuis un fichier
 # MEILLEURE PRATIQUE : Config externalisée, facile à maintenir
-COPY nginx-spa.conf /etc/nginx/conf.d/default.conf
+COPY config/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

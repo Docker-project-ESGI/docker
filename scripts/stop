@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $SCRIPT_DIR/print-head
@@ -16,25 +16,25 @@ if [[ " q quitter " =~ " $(echo $CONTAINER_TO_STOP | tr '[:upper:]' '[:lower:]')
 
 if [[ " t tous f frontend " =~ " $(echo $CONTAINER_TO_STOP | tr '[:upper:]' '[:lower:]') " ]]; then
 
-	echo "Arret du container frontend..."
+	docker stop frontend
 
 fi
 
 if [[ " t tous b backend " =~ " $(echo $CONTAINER_TO_STOP | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        echo "Arret du container backend..."
+        docker stop backend
 
 fi
 
 if [[ " t tous p postgres " =~ " $(echo $CONTAINER_TO_STOP | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        echo "Arret du container postgres..."
+        docker stop postgres
 
 fi
 
 if [[ " t tous r redis " =~ " $(echo $CONTAINER_TO_STOP | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        echo "Arret du container redis..."
+        docker stop redis
 
 fi
 

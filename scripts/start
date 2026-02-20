@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $SCRIPT_DIR/print-head
@@ -22,27 +22,30 @@ fi
 
 if [[ " q quitter " =~ " $(echo $CONTAINER_TO_START | tr '[:upper:]' '[:lower:]') " ]]; then echo "Programme quitté."; exit; fi
 
+docker network create frontend-network
+docker network create backend-network
+
 if [[ " t tous f frontend " =~ " $(echo $CONTAINER_TO_START | tr '[:upper:]' '[:lower:]') " ]]; then
 
-	echo "Execution du container frontend..."
+	docker run --rm -d --network frontend-network --name frontend -p 8080:80 --env-file .env task-manager:frontend
 
 fi
 
 if [[ " t tous b backend " =~ " $(echo $CONTAINER_TO_START | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        echo "Execution du container backend..."
+        docker run --rm -d --network frontend-network --network backend-network --hostname api --name backend -p 127.0.0.1:3000:3000 --env-file .env task-manager:backend
 
 fi
 
 if [[ " t tous p postgres " =~ " $(echo $CONTAINER_TO_START | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        echo "Execution du container postgres..."
+        docker run --rm -d --name postgres --network backend-network -p 127.0.0.1:5432:5432 -v postgres-data:/var/lib/postgresql/data -v ./config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro --env-file .env postgres:alpine3.22
 
 fi
 
 if [[ " t tous r redis " =~ " $(echo $CONTAINER_TO_START | tr '[:upper:]' '[:lower:]') " ]]; then
 
-        echo "Execution du container redis..."
+        docker run --rm -d --name redis --network backend-network -p 127.0.0.1:6379:6379 --env-file .env redis:8.2.4-alpine3.22
 
 fi
 
